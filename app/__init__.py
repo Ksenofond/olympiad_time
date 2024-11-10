@@ -36,7 +36,7 @@ def create_app():
 
 @login_manager.user_loader
 def load_user(user_id):
-    from app.db.models import User  # Переместите импорт внутрь функции
+    from app.db.archive.models import User  # Переместите импорт внутрь функции
     return User.query.get(int(user_id))
 
 def setup_logging(app):

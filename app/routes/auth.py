@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import LoginForm, RegistrationForm
-from app.db.models import User, Student
+from app.db.archive.models import User, Student
 from app.db.database import db
 
 def init_routes(app):

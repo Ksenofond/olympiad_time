@@ -1,10 +1,10 @@
 import json
 import os
 from datetime import datetime
-from flask import render_template, redirect, url_for, flash, request, jsonify, current_app
+from flask import render_template, redirect, url_for, flash, request, current_app
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, OlympiadRegistrationForm
-from app.db.models import OlympiadRegistration, Student, User, Olympiad
+from app.db.archive.models import OlympiadRegistration, Student, User, Olympiad
 from app.db.database import db
 from flask_login import login_user, logout_user, login_required, current_user
 

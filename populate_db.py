@@ -1,8 +1,7 @@
 # app/populate_db.py
 from app import create_app
 from app.db.database import db
-from app.db.models import User, Student, Result
-from werkzeug.security import generate_password_hash
+from app.db.archive.models import User, Student, Result
 from datetime import datetime
 
 app = create_app()
