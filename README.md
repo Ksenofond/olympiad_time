@@ -82,6 +82,98 @@ olympiad_time/
 └── requirements.txt           # Зависимости проекта
 ```
 
+### Структура базы данных
+```
++------------------+          +------------------------+
+|      Account     |          |         Student        |
++------------------+          +------------------------+
+| id (PK)          |<--+      | id (PK)                |
+| email            |   |      | user_id (FK)           |
+| phone_number     |   |      | olympiad_stages_id (FK)|
+| photo            |   |      | school_id (FK)         |
+| password_hash    |   +------| student_name           |
+| role             |          | student_surname        |
+| created_at       |          | student_patronymic     |
++------------------+          | grade                  |
+         |                    | bio                    |
+         | 1 к 1              +------------------------+
+         v
++-------------------+          +-------------------+
+|    Direction      |          |     Subject       |
++-------------------+          +-------------------+
+| id (PK)           |<--+      | id (PK)           |
+| name              |   |      | direction_id (FK) |
+| description       |   +------| name              |
++-------------------+          | description       |
+                               | demo_version      |
+                               +-------------------+
+                                      |
+                                      | 1 ко многим
+                                      v
++-------------------+          +-------------------------+
+|    Olympiad       |          |  OlympiadRegistration   |
++-------------------+          +-------------------------+
+| id (PK)           |<--+      | id (PK)                 |
+| subject_id (FK)   |   |      | student_id (FK)         |
+| name              |   +------| olympiad_id (FK)        |
+| date              |          | registration_date       |
+| description       |          +-------------------------+
+| passing_score     |
++-------------------+
+           |
+           | 1 ко многим
+           v
++-------------------+
+|      Result       |
++-------------------+
+| id (PK)           |
+| user_id (FK)      |
+| olympiad_name     |
+| score             |
+| date              |
++-------------------+
+
++----------------------+
+|      School          |
++----------------------+
+| id (PK)              | -- Уникальный идентификатор школы
+| name (NOT NULL)      | -- Название школы
+| address              | -- Адрес школы
+| phone_number         | -- Номер телефона
+| email                | -- Электронная почта
+| website              | -- Веб-сайт
+| student_capacity     | -- Вместимость (количество учеников)
+| established_year     | -- Год основания
+| description          | -- Описание/краткая информация
++----------------------+
+
++-------------------+-------------+---------------------------+
+|       scores      |             |                           |
++-------------------+-------------+---------------------------+
+| id (PK)           | INTEGER     | PRIMARY KEY AUTOINCREMENT |
+| passing_score     | INTEGER     | NOT NULL                  |
+| participant_status| TEXT        | NOT NULL, CHECK (         |
+|                   |             | participant_status IN (   |
+|                   |             | 'Участник',               |
+|                   |             | 'Бронза',                 |
+|                   |             | 'Серебро',                |
+|                   |             | 'Золото'                  |
++-------------------+-------------+---------------------------+
+
++--------------------+------------+---------------------------+
+|   OlympiadStages   |            |                           |
++--------------------+------------+---------------------------+
+| id (PK)            | INTEGER    | PRIMARY KEY AUTOINCREMENT |
+| name               | TEXT       | NOT NULL                  |
+| status             | TEXT       | NOT NULL, CHECK (         |
+|                    |            | status IN (               |
+|                    |            | 'Участник',               |
+|                    |            | 'Победитель',             |
+|                    |            | 'Финалист',               |
+|                    |            | 'Призёр'                  |
++--------------------+------------+---------------------------+
+```
+
 ### Создание базы данных
 ```cmd
 python .\create_db.py
