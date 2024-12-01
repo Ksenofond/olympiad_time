@@ -3,17 +3,22 @@
 {% block title %}Список Олимпиад{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mt-4">Доступные Олимпиады</h1>
+<div class="container mt-4">
+    <h1>Доступные Олимпиады</h1>
+
+    {% if olympiads %}
     <ul class="list-group">
         {% for olympiad in olympiads %}
-        <li class="list-group-item">
+        <li class="list-group-item mb-3">
             <h5>{{ olympiad.title }}</h5>
-            <p>Дата: {{ olympiad.date }}</p>
-            <p>{{ olympiad.description }}</p>
+            <p><strong>Дата проведения:</strong> {{ olympiad.date.strftime('%d %B %Y, %H:%M') }}</p>
+            <p><strong>Описание:</strong> {{ olympiad.description or 'Нет описания' }}</p>
             <a href="{{ url_for('register_for_olympiad', olympiad_id=olympiad.id) }}" class="btn btn-primary">Записаться</a>
         </li>
         {% endfor %}
     </ul>
+    {% else %}
+    <p>В данный момент нет доступных олимпиад. Пожалуйста, попробуйте позже.</p>
+    {% endif %}
 </div>
 {% endblock %}

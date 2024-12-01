@@ -30,8 +30,8 @@ class EditProfileForm(FlaskForm):
         ('3', '3 класс'), 
         ('4', '4 класс'), 
         ('5', '5 класс'), 
-        ('6', '6 класс'), 
-        ('7', '7 класс'), 
+        ('5', '5 класс'),
+        ('6', '6 класс'),
         ('8', '8 класс'), 
         ('9', '9 класс'), 
         ('10', '10 класс'), 
@@ -47,4 +47,3 @@ class OlympiadRegistrationForm(FlaskForm):
     description = TextAreaField('Описание', validators=[DataRequired()])
     image = FileField('Изображение', validators=[DataRequired()])
     submit = SubmitField('Зарегистрировать Олимпиаду')
-    

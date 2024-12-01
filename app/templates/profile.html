@@ -50,7 +50,7 @@
                     Записаться на олимпиады
                 </a>
                 <a href="{{ url_for('edit_profile') }}" class="btn btn-info mt-2 rounded-pill shadow-sm">Редактировать профиль</a>
-                <a href="javascript:history.back()" class="btn btn-light mt-2 rounded-pill shadow-sm">Назад</a>
+                <a href="javascript:void(0)" id="backButton" class="btn btn-light mt-2 rounded-pill shadow-sm">Назад</a>
             </div>
         </div>
     </div>
@@ -60,16 +60,19 @@
     window.onload = function() {
         const currentUrl = window.location.href;
         const previousUrl = localStorage.getItem('previousUrl');
+
+        // Сохраняем текущий URL, если это не тот же, что был ранее
         if (!previousUrl || previousUrl !== currentUrl) {
             localStorage.setItem('previousUrl', currentUrl);
         }
-    
+
+        // Функция для возврата на предыдущую страницу
         document.getElementById('backButton').onclick = function() {
             const previousUrl = localStorage.getItem('previousUrl');
             if (previousUrl) {
-                window.location.href = previousUrl;
+                window.location.href = previousUrl;  // Переход на предыдущую страницу
             } else {
-                window.history.back();
+                window.history.back();  // Если не найдено, возвращаемся в историю
             }
         };
     };

@@ -8,6 +8,21 @@
     <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
 
+        <!-- Сообщения об ошибках формы -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Ошибка при отправке формы:</strong>
+                <ul>
+                    {% for field, field_errors in form.errors.items() %}
+                        {% for error in field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- Поле для email -->
         <div class="mb-3">
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control", placeholder="Ваш email") }}
@@ -16,6 +31,7 @@
             {% endfor %}
         </div>
 
+        <!-- Поле для телефона -->
         <div class="mb-3">
             {{ form.phone.label(class="form-label") }}
             {{ form.phone(class="form-control", placeholder="Ваш телефон") }}
@@ -24,6 +40,7 @@
             {% endfor %}
         </div>
 
+        <!-- Поле для загрузки фото -->
         <div class="mb-3">
             {{ form.photo.label(class="form-label") }}
             {{ form.photo(class="form-control") }}
@@ -32,6 +49,7 @@
             {% endfor %}
         </div>
 
+        <!-- Поле для пароля -->
         <div class="mb-3">
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-control", placeholder="Введите пароль") }}
@@ -40,6 +58,7 @@
             {% endfor %}
         </div>
 
+        <!-- Поле для подтверждения пароля -->
         <div class="mb-3">
             {{ form.confirm_password.label(class="form-label") }}
             {{ form.confirm_password(class="form-control", placeholder="Подтвердите пароль") }}
@@ -48,10 +67,13 @@
             {% endfor %}
         </div>
 
+        <!-- Кнопка отправки формы -->
         <div class="mb-3">
             {{ form.submit(class="btn btn-primary w-100") }}
         </div>
     </form>
+
+    <!-- Ссылка на страницу входа -->
     <p class="text-center">Уже зарегистрированы? <a href="{{ url_for('login') }}">Войти</a></p>
 </div>
 {% endblock %}

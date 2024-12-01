@@ -5,6 +5,8 @@
     <h2>Регистрация студента</h2>
     <form method="POST">
         {{ form.hidden_tag() }}
+
+        <!-- Имя студента -->
         <div class="mb-3">
             {{ form.name.label(class="form-label") }}
             {{ form.name(class="form-control") }}
@@ -12,7 +14,8 @@
                 <div class="text-danger">{{ error }}</div>
             {% endfor %}
         </div>
-        
+
+        <!-- Фамилия студента -->
         <div class="mb-3">
             {{ form.surname.label(class="form-label") }}
             {{ form.surname(class="form-control") }}
@@ -20,7 +23,8 @@
                 <div class="text-danger">{{ error }}</div>
             {% endfor %}
         </div>
-        
+
+        <!-- Отчество студента -->
         <div class="mb-3">
             {{ form.patronymic.label(class="form-label") }}
             {{ form.patronymic(class="form-control") }}
@@ -28,7 +32,8 @@
                 <div class="text-danger">{{ error }}</div>
             {% endfor %}
         </div>
-        
+
+        <!-- Класс студента -->
         <div class="mb-3">
             {{ form.grade.label(class="form-label") }}
             {{ form.grade(class="form-control") }}
@@ -37,6 +42,7 @@
             {% endfor %}
         </div>
 
+        <!-- Email -->
         <div class="mb-3">
             {{ form.email.label(class="form-label") }}
             {{ form.email(class="form-control") }}
@@ -45,6 +51,7 @@
             {% endfor %}
         </div>
 
+        <!-- Номер телефона -->
         <div class="mb-3">
             {{ form.phone.label(class="form-label") }}
             {{ form.phone(class="form-control") }}
@@ -53,6 +60,7 @@
             {% endfor %}
         </div>
 
+        <!-- Баллы -->
         <div class="mb-3">
             {{ form.score.label(class="form-label") }}
             {{ form.score(class="form-control") }}
@@ -61,6 +69,7 @@
             {% endfor %}
         </div>
 
+        <!-- Кнопка отправки формы -->
         <div class="mb-3">
             {{ form.submit(class="btn btn-primary") }}
         </div>
