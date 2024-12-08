@@ -15,7 +15,7 @@
 
 1. https://msk.postupi.online/olimpiada/olimpiada-shag-v-buduschee-matematika/
 2. https://foxford.ru/catalog/olympiads
-3. 3
+3. https://journal.tinkoff.ru/list/it-olympics/
 4. 4
 5. 5
 

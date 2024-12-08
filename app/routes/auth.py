@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import LoginForm, RegistrationForm
-from app.db.archive.models import User, Student
+from app.db.models import Account, Student
 from app.db.database import db
 
 def init_routes(app):
@@ -11,7 +11,8 @@ def init_routes(app):
             return redirect(url_for('main.index'))
         form = LoginForm()
         if form.validate_on_submit():
-            user = User.query.filter_by(email=form.username.data).first()  # Используйте email
+            # Используем модель Account вместо User
+            user = Account.query.filter_by(email=form.username.data).first()  # Используем email
             if user and user.check_password(form.password.data):
                 login_user(user)
                 flash('Вы успешно вошли в систему!', 'success')
@@ -24,16 +25,16 @@ def init_routes(app):
         if current_user.is_authenticated:
             return redirect(url_for('main.index'))
         form = RegistrationForm()
-        
+
         # Проверяем, существует ли уже пользователь с таким email
-        existing_user = User.query.filter_by(email=form.email.data).first()
+        existing_user = Account.query.filter_by(email=form.email.data).first()  # Используем Account
         if existing_user:
             flash('Пользователь с таким email уже существует.', 'danger')
             return render_template('register.html', form=form)
 
         if form.validate_on_submit():
-            # Создание объекта User
-            user = User(
+            # Создание объекта Account
+            user = Account(
                 email=form.email.data,
                 phone_number=form.phone.data,
                 photo=None  # Укажите по умолчанию или обработайте позже
@@ -59,7 +60,7 @@ def init_routes(app):
 
             flash('Ваш аккаунт создан! Теперь вы можете войти.', 'success')
             return redirect(url_for('auth.login'))
-        
+
         return render_template('register.html', form=form)
 
     @app.route('/logout')

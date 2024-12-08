@@ -1,0 +1,218 @@
+```
+-- Таблица Account (аккаунты пользователей)
+CREATE TABLE Account (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,           -- Уникальный идентификатор
+    email TEXT NOT NULL UNIQUE,                     -- Электронная почта
+    phone_number TEXT,                              -- Номер телефона
+    photo TEXT,                                     -- Фото
+    password_hash TEXT NOT NULL,                    -- Хеш пароля
+    role TEXT NOT NULL,                             -- Роль (например, 'user', 'admin')
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Дата создания
+);
+
+-- Таблица Student (студенты)
+CREATE TABLE Student (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Уникальный идентификатор студента
+    user_id INTEGER NOT NULL,              -- Внешний ключ на Account
+    olympiad_stages_id INTEGER,            -- Внешний ключ на OlympiadStages (если применимо)
+    school_id INTEGER,                     -- Внешний ключ на School
+    student_name TEXT NOT NULL,            -- Имя студента
+    student_surname TEXT NOT NULL,         -- Фамилия студента
+    student_patronymic TEXT,               -- Отчество студента
+    grade INTEGER,                         -- Класс/курс студента
+    bio TEXT,                              -- Биография студента
+    FOREIGN KEY (user_id) REFERENCES Account(id),
+    FOREIGN KEY (olympiad_stages_id) REFERENCES OlympiadStages(id),
+    FOREIGN KEY (school_id) REFERENCES School(id)
+);
+
+-- Таблица Direction (направления: Естественные науки, Общественные науки, Гуманитарные науки ...)
+CREATE TABLE Direction (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Уникальный идентификатор
+    name TEXT NOT NULL,                    -- Название направления
+    description TEXT                       -- Описание направления
+);
+
+-- Таблица Subject (предметы - Русский язык, Математика, Информатика, Физика)
+CREATE TABLE Subject (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Уникальный идентификатор
+    direction_id INTEGER NOT NULL,         -- Внешний ключ на Direction
+    name TEXT NOT NULL,                    -- Название предмета
+    description TEXT,                      -- Описание предмета
+    demo_version TEXT,                     -- Демо-версия предмета
+    FOREIGN KEY (direction_id) REFERENCES Direction(id)
+);
+
+-- Таблица Olympiad (олимпиады)
+CREATE TABLE Olympiad (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Уникальный идентификатор олимпиады
+    subject_id INTEGER NOT NULL,           -- Внешний ключ на Subject
+    name TEXT NOT NULL,                    -- Название олимпиады
+    date TIMESTAMP,                        -- Дата проведения
+    description TEXT,                      -- Описание олимпиады
+    passing_score INTEGER,                 -- Проходной балл
+    FOREIGN KEY (subject_id) REFERENCES Subject(id)
+);
+
+-- Таблица OlympiadRegistration (регистрация на олимпиады)
+CREATE TABLE OlympiadRegistration (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,                  -- Уникальный идентификатор
+    student_id INTEGER NOT NULL,                           -- Внешний ключ на Student
+    olympiad_id INTEGER NOT NULL,                          -- Внешний ключ на Olympiad
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Дата регистрации
+    FOREIGN KEY (student_id) REFERENCES Student(id),
+    FOREIGN KEY (olympiad_id) REFERENCES Olympiad(id)
+);
+
+-- Таблица Result (результаты участников)
+CREATE TABLE Result (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,      -- Уникальный идентификатор
+    user_id INTEGER NOT NULL,                  -- Внешний ключ на Account
+    olympiad_name TEXT NOT NULL,               -- Название олимпиады
+    score INTEGER NOT NULL,                    -- Баллы
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Дата результата
+    FOREIGN KEY (user_id) REFERENCES Account(id)
+);
+
+-- Таблица School (школы)
+CREATE TABLE School (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Уникальный идентификатор
+    name TEXT NOT NULL,                    -- Название школы
+    address TEXT,                          -- Адрес школы
+    phone_number TEXT,                     -- Телефон школы
+    email TEXT,                            -- Электронная почта
+    website TEXT,                          -- Веб-сайт
+    student_capacity INTEGER,              -- Вместимость школы
+    established_year INTEGER,              -- Год основания школы
+    description TEXT                       -- Описание школы
+);
+
+-- Таблица Scores (баллы и статусы участников)
+CREATE TABLE Scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,     -- Уникальный идентификатор
+    passing_score INTEGER NOT NULL,           -- Проходной балл
+    participant_status TEXT NOT NULL CHECK (  -- Статус участника
+        participant_status IN ('Участник', 'Бронза', 'Серебро', 'Золото')
+    )
+);
+
+-- Таблица OlympiadStages (этапы олимпиады)
+CREATE TABLE OlympiadStages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,   -- Уникальный идентификатор
+    name TEXT NOT NULL,                     -- Название этапа
+    status TEXT NOT NULL CHECK (            -- Статус этапа
+        status IN ('Участник', 'Победитель', 'Финалист', 'Призёр')
+    )
+);
+
+-- Информатика - Программирование, Алгоритмы и структуры данных, Искусственный интеллект, 3D Графика, Компьютерная безопасность
+
+/*
+Естественные науки:
+1. Математика
+2. Астрономия
+3. Биология
+4. География
+5. Экология
+6. Физика
+7. Химия
+
+Общественные науки:
+1. Экономика
+2. Обществознание
+3. Право
+4. ОБЖ (Основы безопасности жизнедеятельности)
+
+Гуманитарные науки:
+1. Русский язык
+2. Литература
+3. Английский язык
+4. Испанский язык
+5. Китайский язык
+6. Немецкий язык
+7. Французский язык
+8. Искусство
+
+Технические науки:
+1. Информатика
+2. Технология
+
+Спортивное направление:
+1. Физическая культура
+
+Направления:
+1. Естественные науки
+2. Общественные науки
+3. Гуманитарные науки
+4. Технические науки
+5. Спортивное направление
+
+
+
+Математика:
+1. Геометрия
+2. Алгебра
+3. Анализ
+4. Теория чисел
+
+Физика:
+1. Механика
+2. Электродинамика
+3. Оптика
+4. Термодинамика
+
+Информатика:
+1. Программирование
+2. Алгоритмы и структуры данных
+3. Искусственный интеллект
+4. Компьютерная безопасность
+
+Химия:
+1. Органическая химия
+2. Неорганическая химия
+3. Физическая химия
+
+Биология:
+1. Экология
+2. Генетика
+3. Молекулярная биология
+
+Литература:
+1. Русская литература
+2. Зарубежная литература
+3. Теория литературы
+
+История:
+1. Всемирная история
+2. История России
+3. Археология
+
+Экономика:
+1. Микроэкономика
+2. Макроэкономика
+3. Финансовый анализ
+
+География:
+1. Физическая география
+2. Экономическая география
+3. Картография
+
+Социальные науки:
+1. Психология
+2. Социология
+3. Политология
+
+Иностранные языки:
+1. Английский язык
+2. Немецкий язык
+3. Французский язык
+4. Испанский язык
+*/
+```
+
+Исправить создание базы данных при запуске проекта.
+Проверить все модели и их взаимодействие.
+Оптимизировать выборку олимпиад по записям.
+Добавить Direction по направлениям.
+
+Дата: 08.12.2024

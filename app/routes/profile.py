@@ -2,7 +2,7 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.db.archive.models import Student  # Импортируйте ваши модели
+from app.db.models import Student  # Импортируйте ваши модели
 from app.forms import ProfileForm
 from app import db  # Импортируйте db для сохранения изменений
 
